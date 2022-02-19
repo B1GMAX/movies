@@ -182,7 +182,9 @@ class MovieDescriptionScreen extends StatelessWidget {
                             fontWeight: FontWeight.w500),
                       ),
                       TextSpan(
-                        text: _combineNames(movie.stars),
+                        text: movie.stars.isNotEmpty
+                            ? _combineNames(movie.stars)
+                            : '',
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,

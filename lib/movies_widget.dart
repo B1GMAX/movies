@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/home_screen_bloc.dart';
 import 'movide_state.dart';
 import 'movie_details_screen.dart';
 
 class MoviesWidget extends StatelessWidget {
   final MovieState movieState;
-  const MoviesWidget({required this.movieState,Key? key}) : super(key: key);
+
+  const MoviesWidget({required this.movieState, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate:
-      const SliverGridDelegateWithFixedCrossAxisCount(
+      controller: context.read<HomeScreenBloc>().scrollController,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: 0.7,
         mainAxisSpacing: 5.0,
         crossAxisSpacing: 5.0,
@@ -35,6 +37,11 @@ class MoviesWidget extends StatelessWidget {
             children: [
               Image.network(
                 movieState.movieModalList[index].poster,
+                errorBuilder: (c, _, __) => Image.asset(
+                  'assets/zamena.jpg',
+                  width: 150,
+                  height: 215,
+                ),
                 fit: BoxFit.cover,
                 width: 150,
                 height: 215,
@@ -56,8 +63,7 @@ class MoviesWidget extends StatelessWidget {
                   ),
                   const Text(
                     '/10',
-                    style: TextStyle(
-                        fontSize: 14, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ],
               ),

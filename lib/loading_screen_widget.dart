@@ -6,8 +6,7 @@ class LoadingScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate:
-      const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: 0.5,
         mainAxisSpacing: 5.0,
         crossAxisSpacing: 6.0,

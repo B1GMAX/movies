@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:movies/person.dart';
@@ -8,19 +9,39 @@ import 'movie_modal.dart';
 
 class HomeScreenBloc extends BlocBase<MovieState> {
   HomeScreenBloc()
-      : super(MovieState(
-            movieModalList: [], dataLoaded: false, errorOccurred: false));
+      : super(
+          MovieState(
+            movieModalList: [],
+            dataLoaded: false,
+            errorOccurred: false,
+          ),
+        ) {
+    scrollController.addListener(
+      () {
+        if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent) {
+          ++_page;
+          if (_page < _limitPages) {
+            print('p-$_page');
 
-  Future<void> getMovieData() async {
+            getMovieData(_page);
+          }
+        }
+      },
+    );
+  }
+
+  int _page = 0;
+  int _limitPages = 0;
+  final ScrollController scrollController = ScrollController();
+
+  Future<void> getMovieData(int page) async {
     try {
       final response = await get(Uri.parse(
-          'https://live.mocat.amifactory.network/api/v1/movies/?page=0'));
-
+          'https://live.mocat.amifactory.network/api/v1/movies/?page=$page'));
       if (response.statusCode == 200) {
-        emit(MovieState(
-            movieModalList: _parseData(response.body),
-            dataLoaded: true,
-            errorOccurred: false));
+        state.movieModalList.addAll(_parseData(response.body));
+        emit(state.copyWith(dataLoaded: true, errorOccurred: false));
       } else {
         emit(state.copyWith(errorOccurred: true));
       }
@@ -33,6 +54,7 @@ class HomeScreenBloc extends BlocBase<MovieState> {
     final List<MovieModal> movieInformation = [];
     final Map<String, dynamic> jsonMap = jsonDecode(json);
     final List results = jsonMap['results'];
+    _limitPages = jsonMap['pages'];
     for (int i = 0; i < results.length; i++) {
       final List<Person> directorsList = [];
       final List<Person> writersList = [];
@@ -71,6 +93,7 @@ class HomeScreenBloc extends BlocBase<MovieState> {
       }
       final String mpRating = results[i]['mpa_rating'];
       final int duration = results[i]['duration'];
+
       movieInformation.add(MovieModal(
           duration: duration,
           mpaRating: mpRating,
@@ -86,5 +109,11 @@ class HomeScreenBloc extends BlocBase<MovieState> {
           rating: rating));
     }
     return movieInformation;
+  }
+
+  @override
+  Future<void> close() {
+    scrollController.dispose();
+    return super.close();
   }
 }
