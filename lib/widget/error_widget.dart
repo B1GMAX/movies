@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'home_screen_bloc.dart';
+import '../bloc/movie_bloc.dart';
 
 class ErrorScreenWidget extends StatelessWidget {
   const ErrorScreenWidget({Key? key}) : super(key: key);
@@ -32,9 +32,10 @@ class ErrorScreenWidget extends StatelessWidget {
             width: 180,
             height: 50,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: const Color(0xFFDA1617)),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFDA1617)),
               onPressed: () {
-                context.read<HomeScreenBloc>().getMovieData(0);
+                context.read<MovieBloc>().getMovieData(0);
               },
               child: const Text('Retry'),
             ),

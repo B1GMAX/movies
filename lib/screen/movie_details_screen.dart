@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'package:movies/movie_modal.dart';
-import 'package:movies/person.dart';
+import 'package:movies/modal/movie_modal.dart';
+import 'package:movies/modal/person_modal.dart';
 
 class MovieDescriptionScreen extends StatelessWidget {
   final MovieModal movie;
@@ -130,7 +130,7 @@ class MovieDescriptionScreen extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       const TextSpan(
-                        text: 'Directors:',
+                        text: 'Directors: ',
                         style: TextStyle(
                             color: Color(0xFFE2E2E2),
                             fontSize: 16,
@@ -153,7 +153,7 @@ class MovieDescriptionScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Writers:',
+                      'Writers: ',
                       style: TextStyle(
                           color: Color(0xFFE2E2E2),
                           fontSize: 16,
@@ -171,28 +171,28 @@ class MovieDescriptionScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Stars:',
-                        style: TextStyle(
-                            color: Color(0xFFE2E2E2),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      TextSpan(
-                        text: movie.stars.isNotEmpty
-                            ? _combineNames(movie.stars)
-                            : '',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ),
+                movie.stars.isNotEmpty
+                    ? RichText(
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'Stars: ',
+                              style: TextStyle(
+                                  color: Color(0xFFE2E2E2),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            TextSpan(
+                              text: _combineNames(movie.stars),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox.shrink(),
                 const SizedBox(
                   height: 50,
                 ),
@@ -238,7 +238,7 @@ class MovieDescriptionScreen extends StatelessWidget {
                       height: 50,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: const Color(0xFFDA1617)),
+                              backgroundColor: const Color(0xFFDA1617)),
                           onPressed: () {},
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -268,20 +268,20 @@ class MovieDescriptionScreen extends StatelessWidget {
     );
   }
 
-  String _combineNames(List<Person> list) {
+  String _combineNames(List<PersonModal> list) {
     String names = '';
     for (var element in list) {
-      names += '${element.firstName} ${element.lastName} ,';
+      names += '${element.firstName} ${element.lastName}, ';
     }
-    return names.substring(0, names.length - 1);
+    return names.substring(0, names.length - 2);
   }
 
   String _combineGenres(List<String> list) {
     String genres = '';
     for (var element in list) {
-      genres += '$element,';
+      genres += '$element, ';
     }
-    return genres.substring(0, genres.length - 1);
+    return genres.substring(0, genres.length - 2);
   }
 
   String formatMovieDuration(int time) {

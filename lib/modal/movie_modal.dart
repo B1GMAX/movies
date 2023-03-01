@@ -1,4 +1,4 @@
-import 'package:movies/person.dart';
+import 'package:movies/modal/person_modal.dart';
 
 class MovieModal {
   final String bigPicture;
@@ -7,9 +7,9 @@ class MovieModal {
   final String poster;
   final String description;
   final int year;
-  final List<Person> directors;
-  final List<Person> writers;
-  final List<Person> stars;
+  final List<PersonModal> directors;
+  final List<PersonModal> writers;
+  final List<PersonModal> stars;
   final List<String> genres;
   final String mpaRating;
   final int duration;

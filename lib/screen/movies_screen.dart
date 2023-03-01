@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'error_widget.dart';
-import 'home_screen_bloc.dart';
+import '../widget/error_widget.dart';
+import '../bloc/movie_bloc.dart';
 import 'loading_screen_widget.dart';
 
-import 'movide_state.dart';
-import 'movies_widget.dart';
+import '../state/movide_state.dart';
+import '../widget/movies_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,10 +14,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => HomeScreenBloc()..getMovieData(0),
+      create: (BuildContext context) => MovieBloc()..getMovieData(0),
       child: Scaffold(
         backgroundColor: const Color(0xFF161616),
-        body: BlocBuilder<HomeScreenBloc, MovieState>(
+        body: BlocBuilder<MovieBloc, MovieState>(
           builder: (context, state) {
             return !state.errorOccurred
                 ? state.dataLoaded

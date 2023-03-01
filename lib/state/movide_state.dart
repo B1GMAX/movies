@@ -1,4 +1,4 @@
-import 'package:movies/movie_modal.dart';
+import 'package:movies/modal/movie_modal.dart';
 
 class MovieState {
   final List<MovieModal> movieModalList;

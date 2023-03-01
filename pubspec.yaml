@@ -64,7 +64,7 @@ flutter:
   assets:
     - assets/error_photo.svg
     - assets/back_arrow.svg
-    - assets/zamena.jpg
+    - assets/patch.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
